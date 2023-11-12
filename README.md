@@ -19,10 +19,17 @@ Install pmbootstrap using your package manager or see postmarketOS porting guide
 Copy "device-samsung-m013f" and "linux-samsung-m013f" to /path/pmbootstrap/cache_git/pmaports/device/testing; Where /path is Where you cloned pmbootstrap sources, default is /home/your_username/.local/var.
 
 After copying packages, Open terminal and use following commands :
+
 pmbootstrap init
+
 Select edge as os vresion
+
 select samsung as manufacture
+
 type m013f as device.
+
 Then Complete other steps.
+
 To buid run :
+
 pmbootstrap install
