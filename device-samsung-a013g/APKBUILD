@@ -1,0 +1,33 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer Minha-D
+pkgname=device-samsung-a013g
+pkgdesc="Samsung Galaxy A01 Core"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-samsung-a013g
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="
+	deviceinfo
+	modules-initfs
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+4377f3e6a2afb69d87fdb6e16baa3ee5bb79e8b48ce569f3f453272dbb101e6f5baef93558b20a5892af76708b5914ef7ecd60afcfafc6b8662f1b1822bce2c6  deviceinfo
+03cab135b4d8d249724a36e30af94404ad56fb14f30819838a2fa35a84ec4f65152a72db7534c97fcfe0aa4de16c112f556f799f66ec8134f76aba84efc3eafa  modules-initfs
+"

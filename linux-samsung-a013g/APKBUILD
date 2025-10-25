@@ -1,0 +1,72 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm/configs/a01core_defconfig
+# Maintainer Minha-D
+pkgname=linux-samsung-a013g
+pkgver=4.14.141
+pkgrel=0
+pkgdesc="Samsung Galaxy A01 Core kernel fork"
+arch="armv7"
+_carch="arm"
+_flavor="samsung-a013g"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	findutils
+	flex
+	openssl-dev
+	perl
+	linux-headers
+    gcc6
+	gcompat
+"
+# Compiler: GCC 6 (doesn't boot when compiled with newer versions)
+if [ "${CC:0:5}" != "gcc6-" ]; then
+	CC="gcc6-$CC"
+	HOSTCC="gcc6-gcc"
+	CROSS_COMPILE="gcc6-$CROSS_COMPILE"
+fi
+
+# Source
+_repository="kernel-a01c"
+_commit="b253c9da8ab889f9ab3a4d80190cbd4edc7ca874"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/Takumi123w/$_repository/archive/$_commit.tar.gz
+	$_config
+"
+builddir="$srcdir/$_repository-$_commit"
+_outdir="out"
+
+prepare() {
+	default_prepare
+REPLACE_GCCH=0	. downstreamkernel_prepare
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" \
+		"$_flavor" "$_outdir"
+
+    make O="$_outdir" CC="${CC:-gcc}" modules_install \
+		ARCH="$_carch" \
+		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1
+
+    mkdir -p "$pkgdir"/boot/dtbs
+	cp "$_outdir/arch/arm/boot/mtk.dtb" "$pkgdir/boot/dtbs/mtk.dtb"
+}
+
+sha512sums="
+89b00e252ac7fe372b5451628ffedb89edd3669b005ab3707e7cabfefe3bdc4cf2da81895575ef7e65c24398b33f95663866ea45d916858ced5dd8bfbf56632c  linux-samsung-a013g-b253c9da8ab889f9ab3a4d80190cbd4edc7ca874.tar.gz
+e3ebd52040b56f2b2e8c3589809aa8c8749c6a6b79197e7c5daa65884fa7c0d22ea5c7f8f69037930b0179df4e227bb21d9d6d5277692841ad2bd3d6ff12da18  config-samsung-a013g.armv7
+"
