@@ -3,10 +3,10 @@
 # scripts.
 
 deviceinfo_format_version="0"
-deviceinfo_name="Samsung Galaxy M01 Core"
+deviceinfo_name="Samsung Galaxy A01 Core"
 deviceinfo_manufacturer="Samsung"
-deviceinfo_codename="samsung-m013f"
-deviceinfo_year="2018"
+deviceinfo_codename="samsung-a013g"
+deviceinfo_year="2020"
 deviceinfo_dtb="mtk"
 deviceinfo_arch="armv7"
 
