@@ -20,7 +20,7 @@ Select edge as os vresion
 
 select samsung as manufacture
 
-type m013f as device.
+type a013g as device.
 
 Then Complete other steps.
 
